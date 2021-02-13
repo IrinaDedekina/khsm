@@ -117,4 +117,27 @@ RSpec.describe Game, type: :model do
       expect(game_w_questions.previous_game_question).to eq(game_w_questions.game_questions[2])
     end
   end
+
+  context '.answer_current_question!' do
+    it 'return false if timeout expires or game is over' do
+      q = game_w_questions.current_game_question
+      expect(game_w_questions.time_out!).to be_falsey
+      expect(game_w_questions.finished?).to be_falsey
+    end
+
+    it 'return false if answer is last and finished' do
+      q = game_w_questions.current_game_question
+      expect(game_w_questions.finished?).to be false
+    end
+
+    it 'return true if answer is last and not finished' do
+      q = game_w_questions.current_game_question
+      expect(game_w_questions.answer_current_question!('d')).to be_truthy
+    end
+
+    it 'return true if answer is correct' do
+      q = game_w_questions.current_game_question
+      expect(game_w_questions.answer_current_question!('d')).to be_truthy
+    end
+  end
 end
