@@ -119,25 +119,35 @@ RSpec.describe Game, type: :model do
   end
 
   context '.answer_current_question!' do
-    it 'return false if timeout expires or game is over' do
+    it 'return false if timeout expires' do
       q = game_w_questions.current_game_question
-      expect(game_w_questions.time_out!).to be_falsey
-      expect(game_w_questions.finished?).to be_falsey
+      game_w_questions.created_at = 1.hour.ago
+      expect(game_w_questions.answer_current_question!('d')).to be_falsey
+      expect(game_w_questions.finished?).to be_truthy
+      expect(game_w_questions.status).to eq(:timeout)
     end
 
-    it 'return false if answer is last and finished' do
+    it 'return falsey if answer is not correct' do
       q = game_w_questions.current_game_question
-      expect(game_w_questions.finished?).to be false
-    end
-
-    it 'return true if answer is last and not finished' do
-      q = game_w_questions.current_game_question
-      expect(game_w_questions.answer_current_question!('d')).to be_truthy
+      expect(game_w_questions.answer_current_question!('a')).to be_falsey
+      expect(game_w_questions.finished?).to be_truthy
+      expect(game_w_questions.status).to eq(:fail)
     end
 
     it 'return true if answer is correct' do
       q = game_w_questions.current_game_question
+      level = game_w_questions.current_level
       expect(game_w_questions.answer_current_question!('d')).to be_truthy
+      expect(game_w_questions.status).to eq(:in_progress)
+      expect(game_w_questions.current_level).to eq(level + 1)
+    end
+
+    it 'return true if the last question and answer is correct ' do
+      q = game_w_questions.current_game_question
+      game_w_questions.current_level = Question::QUESTION_LEVELS.max
+      expect(game_w_questions.answer_current_question!('d')).to be_truthy
+      expect(game_w_questions.finished?).to be_truthy
+      expect(game_w_questions.status).to eq(:won)
     end
   end
 end
