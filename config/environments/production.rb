@@ -64,6 +64,8 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
+  config.secret_key_base = ENV["SECRET_KEY_BASE"]
+
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
