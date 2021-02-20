@@ -28,6 +28,42 @@ RSpec.describe GamesController, type: :controller do
       expect(response).to redirect_to(new_user_session_path) # devise должен отправить на логин
       expect(flash[:alert]).to be # во flash должен быть прописана ошибка
     end
+
+    it 'kick from #create' do
+      # вызываем экшен
+      get :create
+      # проверяем ответ
+      expect(response.status).not_to eq(200) # статус не 200 ОК
+      expect(response).to redirect_to(new_user_session_path) # devise должен отправить на логин
+      expect(flash[:alert]).to be # во flash должен быть прописана ошибка
+    end
+
+    it 'kick from #answer' do
+      # вызываем экшен
+      get :create, id: game_w_questions.id
+      # проверяем ответ
+      expect(response.status).not_to eq(200) # статус не 200 ОК
+      expect(response).to redirect_to(new_user_session_path) # devise должен отправить на логин
+      expect(flash[:alert]).to be # во flash должен быть прописана ошибка
+    end
+
+    it 'kick from #answer' do
+      # вызываем экшен
+      get :answer, id: game_w_questions.id
+      # проверяем ответ
+      expect(response.status).not_to eq(200) # статус не 200 ОК
+      expect(response).to redirect_to(new_user_session_path) # devise должен отправить на логин
+      expect(flash[:alert]).to be # во flash должен быть прописана ошибка
+    end
+
+    it 'kick from #take_money' do
+      # вызываем экшен
+      get :take_money, id: game_w_questions.id
+      # проверяем ответ
+      expect(response.status).not_to eq(200) # статус не 200 ОК
+      expect(response).to redirect_to(new_user_session_path) # devise должен отправить на логин
+      expect(flash[:alert]).to be # во flash должен быть прописана ошибка
+    end
   end
 
   # группа тестов на экшены контроллера, доступных залогиненным юзерам
