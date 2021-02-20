@@ -89,7 +89,6 @@ RSpec.describe GamesController, type: :controller do
 
     # юзер не правильно отвечает на вопрос
     it 'wrong answer' do
-    # передаем параметр params[:letter]
       put :answer, id: game_w_questions.id
       game = assigns(:game)
 
