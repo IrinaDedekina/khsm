@@ -125,11 +125,11 @@ RSpec.describe GamesController, type: :controller do
 
     # юзер не правильно отвечает на вопрос
     it 'wrong answer' do
-      put :answer, id: game_w_questions.id
+      not_correct_answer = (%w(a b c d) - [game_w_questions.current_game_question.correct_answer_key]).sample
+      put :answer, id: game_w_questions.id, letter: not_correct_answer
       game = assigns(:game)
 
-      expect(game.answer_current_question!('a')).to be_falsey
-      expect(game.finished?).to be_truthy
+      expect(game.finished?).to be true
       expect(response).to redirect_to(user_path)
       expect(flash[:alert]).to be_truthy
     end
