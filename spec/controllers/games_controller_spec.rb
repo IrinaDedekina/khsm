@@ -125,7 +125,7 @@ RSpec.describe GamesController, type: :controller do
 
     # юзер не правильно отвечает на вопрос
     it 'wrong answer' do
-      not_correct_answer = (%w(a b c d) - [game_w_questions.current_game_question.correct_answer_key]).sample
+      not_correct_answer = (%w[a b c d] - [game_w_questions.current_game_question.correct_answer_key]).sample
       put :answer, id: game_w_questions.id, letter: not_correct_answer
       game = assigns(:game)
 
