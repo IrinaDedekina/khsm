@@ -181,8 +181,8 @@ RSpec.describe GamesController, type: :controller do
       game = assigns(:game)
 
       # проверяем, что игра не закончилась, что флажок установился, и подсказка записалась
-      expect(game.finished?).to be_falsey
-      expect(game.fifty_fifty_used).to be_truthy
+      expect(game.finished?).to be false
+      expect(game.fifty_fifty_used).to be true
       expect(game.current_game_question.help_hash[:fifty_fifty]).to be
       expect(game.current_game_question.help_hash[:fifty_fifty].size).to eq 2
       expect(response).to redirect_to(game_path(game))
